@@ -390,7 +390,7 @@ class FileAdder
 
         $this->checkGenerateResponsiveImages($media);
 
-        $model->media()->save($media);
+        $model->images()->save($media);
 
         if ($fileAdder->file instanceof RemoteFile) {
             $this->filesystem->addRemote($fileAdder->file, $media, $fileAdder->fileName);

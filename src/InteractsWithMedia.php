@@ -49,11 +49,11 @@ trait InteractsWithMedia
                 }
             }
 
-            $model->media()->cursor()->each(fn (Media $media) => $media->delete());
+            $model->images()->cursor()->each(fn (Media $media) => $media->delete());
         });
     }
 
-    public function media(): MorphMany
+    public function images(): MorphMany
     {
         return $this->morphMany(config('media-library.media_model'), 'model');
     }
@@ -390,7 +390,7 @@ trait InteractsWithMedia
         event(new CollectionHasBeenCleared($this, $collectionName));
 
         if ($this->mediaIsPreloaded()) {
-            unset($this->media);
+            unset($this->images);
         }
 
         return $this;
@@ -422,7 +422,7 @@ trait InteractsWithMedia
             ->each(fn (Media $media) => $media->delete());
 
         if ($this->mediaIsPreloaded()) {
-            unset($this->media);
+            unset($this->images);
         }
 
         if ($this->getMedia($collectionName)->isEmpty()) {
@@ -446,7 +446,7 @@ trait InteractsWithMedia
             $mediaId = $mediaId->getKey();
         }
 
-        $media = $this->media->find($mediaId);
+        $media = $this->images->find($mediaId);
 
         if (!$media) {
             throw MediaCannotBeDeleted::doesNotBelongToModel($mediaId, $this);
@@ -487,7 +487,7 @@ trait InteractsWithMedia
 
     protected function mediaIsPreloaded(): bool
     {
-        return $this->relationLoaded('media');
+        return $this->relationLoaded('images');
     }
 
     /*
@@ -496,7 +496,7 @@ trait InteractsWithMedia
     public function loadMedia(string $collectionName): Collection
     {
         $collection = $this->exists
-            ? $this->media
+            ? $this->images
             : collect($this->unAttachedMediaLibraryItems)->pluck('media');
 
         return $collection

@@ -10,7 +10,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 interface HasMedia
 {
-    public function media(): MorphMany;
+    public function images(): MorphMany;
 
     /**
      * Move a file to the media library.

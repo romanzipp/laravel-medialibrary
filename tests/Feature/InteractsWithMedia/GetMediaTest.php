@@ -255,7 +255,7 @@ class GetMediaTest extends TestCase
         $firstMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
         $secondMedia = $this->testModel->addMedia($this->getTestJpg())->preservingOriginal()->toMediaCollection('images');
 
-        $preloadedTestModel = TestModel::with('media')
+        $preloadedTestModel = TestModel::with('images')
             ->where('id', $this->testModel->id)
             ->first();
 
@@ -267,7 +267,7 @@ class GetMediaTest extends TestCase
         $firstMedia->order_column = 3;
         $firstMedia->save();
 
-        $preloadedTestModel = TestModel::with('media')
+        $preloadedTestModel = TestModel::with('images')
             ->where('id', $this->testModel->id)
             ->first();
 
@@ -282,12 +282,12 @@ class GetMediaTest extends TestCase
     {
         DB::enableQueryLog();
 
-        $this->assertFalse($this->testModel->relationLoaded('media'));
+        $this->assertFalse($this->testModel->relationLoaded('images'));
         $this->assertCount(0, DB::getQueryLog());
 
         $this->testModel->getMedia('images');
 
-        $this->assertTrue($this->testModel->relationLoaded('media'));
+        $this->assertTrue($this->testModel->relationLoaded('images'));
         $this->assertCount(1, DB::getQueryLog());
 
         $this->testModel->getMedia('images');
